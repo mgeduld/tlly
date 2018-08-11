@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/mgeduld/tlly#readme",
   "devDependencies": {
+    "@types/meow": "^4.0.1",
     "@types/node": "^10.5.8",
     "ava": "^0.25.0",
     "ava-ts": "^0.25.0",
@@ -26,5 +27,8 @@
     "parcel-bundler": "^1.9.7",
     "tslint-config-airbnb": "^5.9.2",
     "typescript": "^3.0.1"
+  },
+  "dependencies": {
+    "meow": "^5.0.0"
   }
 }
