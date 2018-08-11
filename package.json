@@ -1,0 +1,30 @@
+{
+  "name": "tlly",
+  "version": "1.0.0",
+  "description": "a command-line tool for keeping tallies",
+  "main": "index.js",
+  "scripts": {
+    "test": "nyc ava-ts \"src/**/*.test.ts\"",
+    "build": "parcel src/tlly.ts --out-dir dist/ --target node"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mgeduld/tlly.git"
+  },
+  "keywords": [],
+  "author": "Marcus Geduld",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mgeduld/tlly/issues"
+  },
+  "homepage": "https://github.com/mgeduld/tlly#readme",
+  "devDependencies": {
+    "@types/node": "^10.5.8",
+    "ava": "^0.25.0",
+    "ava-ts": "^0.25.0",
+    "nyc": "^12.0.2",
+    "parcel-bundler": "^1.9.7",
+    "tslint-config-airbnb": "^5.9.2",
+    "typescript": "^3.0.1"
+  }
+}
