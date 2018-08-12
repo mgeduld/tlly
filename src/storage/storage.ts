@@ -1,7 +1,7 @@
 import { DB } from '../enums/db'
 import { ErrorMessage } from '../enums/error-message'
 import { IDB } from '../interfaces/db'
-import { count } from '../queries/'
+import { count } from '../queries'
 
 export const getResolvedTally = (
   db: IDB,

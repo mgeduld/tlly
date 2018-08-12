@@ -1,32 +1,20 @@
-import meow, { Options } from 'meow'
-import { help, config } from './args'
-import { updateTally } from './storage'
-import { count } from './queries'
+import * as meow from 'meow'
+import { getHelp, getConfig } from './args/config'
+import {
+  getTallyNameAndAmount,
+  userWantsToCount,
+  userWantsToTally
+} from './args'
+import { IArgs, IFlags } from './interfaces/args'
+import { doCount, doTally } from './commands'
 
-const args = meow(help, config as Options)
+const moewResult: any = meow(getHelp(), getConfig() as meow.Options)
+const flags: IFlags = moewResult.flags
+const args: IArgs = { input: moewResult.input, flags }
+const { tallyName, amount } = getTallyNameAndAmount(args)
 
-const {
-  reset: resetFlag,
-  set: setFlag,
-  count: countFlag,
-  delete: deleteFlag
-} = args.flags
-
-const noFlags = Object.keys(args.flags).every((key) => !args.flags[key])
-
-const [tallyName, amount]: string[] = args.input
-
-const countEm = async (tallyName: string) => {
-  const result = await count(tallyName)
-  console.log(result)
-}
-
-if (noFlags && (tallyName || !args.input.length)) {
-  const resolvedTallyName = updateTally(
-    amount && !isNaN(Number(amount)) ? Number(amount) : undefined,
-    tallyName
-  )
-  countEm(resolvedTallyName)
-} else if (args.flags.count) {
-  countEm(tallyName)
+if (userWantsToTally(flags)) {
+  doTally(amount, tallyName)
+} else if (userWantsToCount(flags)) {
+  doCount(tallyName)
 }

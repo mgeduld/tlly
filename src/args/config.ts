@@ -1,4 +1,4 @@
-export const help = `Usage
+export const getHelp = () => `Usage
 $ tlly <subject> <options> 
 
 Options
@@ -17,7 +17,7 @@ $ tlly -c exercise # should count for exercise
 $ tlly -c # should count for all tallies
 $ tlly -D exercise # delete exercise tally
 `
-export const config = {
+export const getConfig = () => ({
   flags: {
     reset: {
       type: 'boolean',
@@ -36,4 +36,4 @@ export const config = {
       alias: 'D'
     }
   }
-}
+})
