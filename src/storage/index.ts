@@ -6,7 +6,7 @@ import { updateTallyFactory } from './storage'
 
 const adapter = new FileSync(join(os.homedir(), '.tallydb.json'))
 const db = lowdb(adapter)
-db.defaults({ currentTally: undefined, tallies: {} })
+db.defaults({ currentTally: undefined, tallies: {}, contiguous: {} })
 
 export const updateTally = (...args) => {
   return updateTallyFactory(db).apply(null, args)

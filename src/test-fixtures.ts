@@ -13,9 +13,9 @@ interface IGetDB {
 
 export const getDBDouble = (getValue?: any[]): IGetDB => {
   let responseIndex = 0
-  let getCalledWith: any = undefined
-  let pushCalledWith: any = undefined
-  let setCalledWith: any = undefined
+  let getCalledWith: any[] = []
+  let pushCalledWith: any[] = []
+  let setCalledWith: any[] = []
   let valueCalled = false
   let writeCalledFromGet = false
   let writeCalledFromSet = false
@@ -28,14 +28,14 @@ export const getDBDouble = (getValue?: any[]): IGetDB => {
     writeCalledFromSet: () => writeCalledFromSet,
     db: {
       get(path: string) {
-        getCalledWith = path
+        getCalledWith.push(path)
         return {
           value() {
             valueCalled = true
             return (getValue && getValue[responseIndex++]) || undefined
           },
           push(value: IJSONValue) {
-            pushCalledWith = value
+            pushCalledWith.push(value)
             return {
               write() {
                 writeCalledFromGet = true
@@ -45,7 +45,7 @@ export const getDBDouble = (getValue?: any[]): IGetDB => {
         }
       },
       set(path: string, value: IJSONValue) {
-        setCalledWith = { path, value }
+        setCalledWith.push({ path, value })
         return {
           write() {
             writeCalledFromSet = true

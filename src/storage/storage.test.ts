@@ -3,6 +3,7 @@ import {
   getResolvedTally,
   maybeStartNewTally,
   writeUpdatedTallyToDb,
+  writeContiguousUpdateToDb,
   updateCurrentTally,
   updateTallyFactory as factory
 } from './storage'
@@ -35,24 +36,41 @@ test('storage::getResolvedTally throws an error if it no name passed in and no d
 
 test('storage::maybeStartNewTally when called with undefined, set called with correct values', (t) => {
   const dbDouble = getDBDouble()
-  maybeStartNewTally(undefined, dbDouble.db, 'tallies.foo')
-  t.deepEqual(dbDouble.setCalledWith(), { path: 'tallies.foo', value: [] })
+  maybeStartNewTally(undefined, dbDouble.db, 'foo')
+  t.deepEqual(
+    dbDouble.setCalledWith()[0],
+    { path: 'tallies.foo', value: [] },
+    'tally value set correctly'
+  )
+  t.deepEqual(
+    dbDouble.setCalledWith()[1],
+    {
+      path: 'contiguous.foo',
+      value: { count: 0, last: '' }
+    },
+    'continuous value set correctly'
+  )
 })
 
 test('storage::maybeStartNewTally when called with a value, set is not called', (t) => {
   const dbDouble = getDBDouble()
-  maybeStartNewTally({ foo: 'bar' }, dbDouble.db, 'tallies.foo')
-  t.is(dbDouble.setCalledWith(), undefined)
+  maybeStartNewTally({ foo: 'bar' }, dbDouble.db, 'foo')
+  t.is(dbDouble.setCalledWith()[0], undefined, 'no tally set')
+  t.is(dbDouble.setCalledWith()[1], undefined, 'no contiguous value set')
 })
 
 test('storage::writeUpdatedTallyToDb without timeStamp', (t) => {
   const dbDouble = getDBDouble()
-  writeUpdatedTallyToDb(dbDouble.db, 'tallies.foo', 5)
-  t.is(dbDouble.getCalledWith(), 'tallies.foo', 'get called with correct value')
-  t.is(typeof dbDouble.pushCalledWith(), 'object', 'push called with object')
-  t.is(dbDouble.pushCalledWith().amount, 5, 'amount is the correct value')
+  writeUpdatedTallyToDb(dbDouble.db, 'foo', 5)
   t.is(
-    typeof dbDouble.pushCalledWith().timeStamp,
+    dbDouble.getCalledWith()[0],
+    'tallies.foo',
+    'get called with correct value'
+  )
+  t.is(typeof dbDouble.pushCalledWith()[0], 'object', 'push called with object')
+  t.is(dbDouble.pushCalledWith()[0].amount, 5, 'amount is the correct value')
+  t.is(
+    typeof dbDouble.pushCalledWith()[0].timeStamp,
     'string',
     'timeStamp is the correct type'
   )
@@ -60,21 +78,59 @@ test('storage::writeUpdatedTallyToDb without timeStamp', (t) => {
 
 test('storage::writeUpdatedTallyToDb with timeStamp', (t) => {
   const dbDouble = getDBDouble()
-  writeUpdatedTallyToDb(dbDouble.db, 'tallies.foo', 5, '2017-11-15')
-  t.is(dbDouble.getCalledWith(), 'tallies.foo', 'get called with correct value')
-  t.is(typeof dbDouble.pushCalledWith(), 'object', 'push called with object')
-  t.is(dbDouble.pushCalledWith().amount, 5, 'amount is the correct value')
+  writeUpdatedTallyToDb(dbDouble.db, 'foo', 5, '2017-11-15')
   t.is(
-    typeof dbDouble.pushCalledWith().timeStamp,
+    dbDouble.getCalledWith()[0],
+    'tallies.foo',
+    'get called with correct value'
+  )
+  t.is(typeof dbDouble.pushCalledWith()[0], 'object', 'push called with object')
+  t.is(dbDouble.pushCalledWith()[0].amount, 5, 'amount is the correct value')
+  t.is(
+    typeof dbDouble.pushCalledWith()[0].timeStamp,
     'string',
     'timeStamp is the correct type'
   )
 })
 
+test('storage::writeContiguousUpdateToDb with no previous last date', (t) => {
+  const dbDouble = getDBDouble([{ count: 0, last: '' }])
+  writeContiguousUpdateToDb(dbDouble.db, 'foo', 1, '2001-01-01')
+  t.deepEqual(dbDouble.setCalledWith()[0], {
+    path: 'contiguous.foo',
+    value: {
+      count: 1,
+      last: 'Mon, 01 Jan 2001 00:00:00 GMT'
+    }
+  })
+})
+
+test('storage::writeContiguousUpdateToDb with last date', (t) => {
+  const dbDouble = getDBDouble([
+    { count: 0, last: 'Mon, 01 Jan 2001 00:00:00 GMT' }
+  ])
+  writeContiguousUpdateToDb(
+    dbDouble.db,
+    'foo',
+    1,
+    'Mon, 02 Jan 2001 00:00:00 GMT'
+  )
+  t.deepEqual(dbDouble.setCalledWith()[0], {
+    path: 'contiguous.foo',
+    value: {
+      count: 1,
+      last: 'Tue, 02 Jan 2001 00:00:00 GMT'
+    }
+  })
+})
+
 test('storage::updateCurrentTally updates calls set with a tally value', (t) => {
   const dbDouble = getDBDouble()
   updateCurrentTally(dbDouble.db, 'foo')
-  t.deepEqual(dbDouble.setCalledWith(), { path: DB.currentTally, value: 'foo' })
+  t.deepEqual(dbDouble.setCalledWith()[0], {
+    path: DB.currentTally,
+    value: 'foo'
+  })
 })
 
 test('storage::updateTally factory returns a function', (t) => {
@@ -82,15 +138,15 @@ test('storage::updateTally factory returns a function', (t) => {
   t.is(typeof factory(dbDouble.db), 'function')
 })
 
-test('storage::updateTally runs without an error if both anount and tally passed into it', (t) => {
-  const dbDouble = getDBDouble()
+test('storage::updateTally runs without an error if both amount and tally passed into it', (t) => {
+  const dbDouble = getDBDouble([undefined, { count: 0, last: '' }])
   const updateTally = factory(dbDouble.db)
   updateTally(1, 'foo')
   t.pass()
 })
 
 test('storage::updateTally runs without an error if no number is passed into it but db returns a tally', (t) => {
-  const dbDouble = getDBDouble(['foo'])
+  const dbDouble = getDBDouble(['foo', undefined, { count: 0, last: '' }])
   const updateTally = factory(dbDouble.db)
   updateTally()
   t.pass()

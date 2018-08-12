@@ -1,7 +1,7 @@
 import { DB } from '../enums/db'
 import { ErrorMessage } from '../enums/error-message'
 import { IDB } from '../interfaces/db'
-import { count } from '../queries'
+import { differenceInCalendarDays } from 'date-fns'
 
 export const getResolvedTally = (
   db: IDB,
@@ -17,21 +17,40 @@ export const getResolvedTally = (
 export const maybeStartNewTally = (
   tallyResults: object,
   db: IDB,
-  jsonPath: string
+  tallyName: string
 ) => {
   if (!tallyResults) {
-    db.set(jsonPath, []).write()
+    db.set(`tallies.${tallyName}`, []).write()
+    db.set(`contiguous.${tallyName}`, { count: 0, last: '' }).write()
   }
+}
+
+export const writeContiguousUpdateToDb = (
+  db: IDB,
+  tallyName: string,
+  amount: number,
+  timeStamp: string
+) => {
+  const dateTime = timeStamp ? new Date(timeStamp) : new Date()
+  const newLast = dateTime.toUTCString()
+  const contiguous = db.get(`contiguous.${tallyName}`).value()
+  const { count, last } = contiguous
+  const lastDate = new Date(last)
+  const newCount =
+    !last || differenceInCalendarDays(new Date(dateTime), lastDate) > 1
+      ? 1
+      : count + amount
+  db.set(`contiguous.${tallyName}`, { count: newCount, last: newLast }).write()
 }
 
 export const writeUpdatedTallyToDb = (
   db: IDB,
-  jsonPath: string,
+  tallyName: string,
   amount: number,
   timeStamp?: string
 ) => {
   const dateTime = timeStamp ? new Date(timeStamp) : new Date()
-  db.get(jsonPath)
+  db.get(`tallies.${tallyName}`)
     .push({ amount, timeStamp: dateTime.toUTCString() })
     .write()
 }
@@ -47,11 +66,12 @@ export const updateTally = (
   timeStamp?: string
 ) => {
   const resolvedTally = getResolvedTally(db, tally)
-  const jsonPath = `tallies.${resolvedTally}`
-  const tallyResults = db.get(jsonPath).value()
-  maybeStartNewTally(tallyResults, db, jsonPath)
-  writeUpdatedTallyToDb(db, jsonPath, amount, timeStamp)
+  const tallyResults = db.get(`tallies.${resolvedTally}`).value()
+  maybeStartNewTally(tallyResults, db, resolvedTally)
+  writeUpdatedTallyToDb(db, resolvedTally, amount, timeStamp)
+  writeContiguousUpdateToDb(db, resolvedTally, amount, timeStamp)
   updateCurrentTally(db, resolvedTally)
+
   return resolvedTally
 }
 
