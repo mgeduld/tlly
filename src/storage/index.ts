@@ -1,6 +1,6 @@
-import lowdb from 'lowdb'
-import FileSync from 'lowdb/adapters/FileSync'
-import os from 'os'
+import lowdb = require('lowdb')
+import FileSync = require('lowdb/adapters/FileSync')
+import * as os from 'os'
 import { join } from 'path'
 import { updateTallyFactory } from './storage'
 

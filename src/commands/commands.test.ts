@@ -8,7 +8,11 @@ test('commands::doTally with args', (t) => {
       t.is(value, 'tally1', 'displayCount called with correct value')
     },
     (...args) => {
-      t.deepEqual(args, [4, 'tally1'], 'updateTally called with correct values')
+      t.deepEqual(
+        args,
+        [4, 'tally1', undefined],
+        'updateTally called with correct values'
+      )
       return 'tally1'
     }
   )(4, 'tally1')
@@ -23,7 +27,7 @@ test('commands::doTally without args', (t) => {
     (...args) => {
       t.deepEqual(
         args,
-        [undefined, undefined],
+        [undefined, undefined, undefined],
         'updateTally called with undefined values'
       )
       return undefined

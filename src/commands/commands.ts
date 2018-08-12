@@ -1,10 +1,12 @@
 export const doTally = (displayCount: Function, updateTally: Function) => (
   amount?: any,
-  tallyName?: string
+  tallyName?: string,
+  timeStamp?: string
 ) => {
   const resolvedTallyName = updateTally(
     amount && !isNaN(Number(amount)) ? Number(amount) : undefined,
-    tallyName
+    tallyName,
+    timeStamp
   )
 
   displayCount(resolvedTallyName)

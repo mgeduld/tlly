@@ -1,6 +1,6 @@
-import lowdb from 'lowdb'
-import FileAsync from 'lowdb/adapters/FileAsync'
-import os from 'os'
+import lowdb = require('lowdb')
+import FileAsync = require('lowdb/adapters/FileAsync')
+import * as os from 'os'
 import { join } from 'path'
 import { countFactory } from './count'
 

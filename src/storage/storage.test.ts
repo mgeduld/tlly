@@ -45,9 +45,22 @@ test('storage::maybeStartNewTally when called with a value, set is not called', 
   t.is(dbDouble.setCalledWith(), undefined)
 })
 
-test('storage::writeUpdatedTallyToDb', (t) => {
+test('storage::writeUpdatedTallyToDb without timeStamp', (t) => {
   const dbDouble = getDBDouble()
   writeUpdatedTallyToDb(dbDouble.db, 'tallies.foo', 5)
+  t.is(dbDouble.getCalledWith(), 'tallies.foo', 'get called with correct value')
+  t.is(typeof dbDouble.pushCalledWith(), 'object', 'push called with object')
+  t.is(dbDouble.pushCalledWith().amount, 5, 'amount is the correct value')
+  t.is(
+    typeof dbDouble.pushCalledWith().timeStamp,
+    'string',
+    'timeStamp is the correct type'
+  )
+})
+
+test('storage::writeUpdatedTallyToDb with timeStamp', (t) => {
+  const dbDouble = getDBDouble()
+  writeUpdatedTallyToDb(dbDouble.db, 'tallies.foo', 5, '2017-11-15')
   t.is(dbDouble.getCalledWith(), 'tallies.foo', 'get called with correct value')
   t.is(typeof dbDouble.pushCalledWith(), 'object', 'push called with object')
   t.is(dbDouble.pushCalledWith().amount, 5, 'amount is the correct value')

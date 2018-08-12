@@ -1,5 +1,10 @@
 import { IArgs } from '../interfaces/args'
 
-export const getTallyNameAndAmount = (args: IArgs) => {
-  return { tallyName: args.input[0], amount: args.input[1] }
+export const getInputValues = (args: IArgs) => {
+  const [tallyName, amount, timeStamp] = args.input
+  return {
+    tallyName,
+    amount,
+    timeStamp
+  }
 }

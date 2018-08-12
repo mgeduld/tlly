@@ -1,5 +1,5 @@
 import test from 'ava'
-import { getTallyNameAndAmount } from './utils'
+import { getInputValues } from './utils'
 import { IArgs } from '../interfaces/args'
 
 test('args::utils::getTallyNameAndAmount', (t) => {
@@ -7,5 +7,9 @@ test('args::utils::getTallyNameAndAmount', (t) => {
     input: ['foo', '1'],
     flags: { reset: false, set: false, delete: false, count: false }
   }
-  t.deepEqual(getTallyNameAndAmount(args), { tallyName: 'foo', amount: '1' })
+  t.deepEqual(getInputValues(args), {
+    tallyName: 'foo',
+    amount: '1',
+    timeStamp: undefined
+  })
 })

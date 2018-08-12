@@ -27,10 +27,12 @@ export const maybeStartNewTally = (
 export const writeUpdatedTallyToDb = (
   db: IDB,
   jsonPath: string,
-  amount: number
+  amount: number,
+  timeStamp?: string
 ) => {
+  const dateTime = timeStamp ? new Date(timeStamp) : new Date()
   db.get(jsonPath)
-    .push({ amount, timeStamp: new Date().toUTCString() })
+    .push({ amount, timeStamp: dateTime.toUTCString() })
     .write()
 }
 
@@ -38,19 +40,25 @@ export const updateCurrentTally = (db: IDB, resolvedTally: string) => {
   db.set(DB.currentTally, resolvedTally).write()
 }
 
-export const updateTally = (db: IDB, amount: number, tally?: string) => {
+export const updateTally = (
+  db: IDB,
+  amount: number,
+  tally?: string,
+  timeStamp?: string
+) => {
   const resolvedTally = getResolvedTally(db, tally)
   const jsonPath = `tallies.${resolvedTally}`
   const tallyResults = db.get(jsonPath).value()
   maybeStartNewTally(tallyResults, db, jsonPath)
-  writeUpdatedTallyToDb(db, jsonPath, amount)
+  writeUpdatedTallyToDb(db, jsonPath, amount, timeStamp)
   updateCurrentTally(db, resolvedTally)
   return resolvedTally
 }
 
 export const updateTallyFactory = (db: IDB) => (
   amount: number = 1,
-  tally?: string
+  tally?: string,
+  timeStamp?: string
 ) => {
-  return updateTally(db, amount, tally)
+  return updateTally(db, amount, tally, timeStamp)
 }
