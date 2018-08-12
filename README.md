@@ -6,20 +6,28 @@ A command-line tool for keeping tallies
 
 `npm run build`
 
-## Todo
+## Todo for MVP
 
-[] command-line options
-[] storage
-[] add tally to subject
-[] subtract tally from subject
-[] display count for subject
-[] display count for all subjects
-[] delete subject
-[] rename subject
-[] list all tallies by time/day/timestamp
-[] list subject tally by time/day/timestamp
-[] list subject tally count by time/day/timestamp and subject
-[] list all subject tally counts by time/day/timestamp
-[] display badges (e.g. when subject tally reaches a certain amount)
-[] display missed days
-[] display in seinfeld mode chain/count
+[x] get, parse, command-line arguments + help
+[x] add new tallies
+[x] increment/decrement tallies
+[x] display tally counts
+[] reset tally to zero
+[] set tally to arbitrary numner
+[] delete tally
+[] display tally by date
+[] display recent contiguous tally as count
+[] display recent contiguous tally as string of chars
+
+## Todo Backlog
+
+[] configure storage location (e.g. for dropbox)
+[] npm setup + publish
+[] display arbitrary list of tallies (tlly -c exercise meditation)
+[] display tallies for a particular date
+[] display tallies for a range of dates
+[] allow days off for contiguous (e.g. weekends)
+[] badges (e.g. when you exercise X number of contiguous days)
+[] due to lowdb bug, sync fails in some cases\*. Maybe switch everything to async
+
+- https://github.com/typicode/lowdb/issues/283

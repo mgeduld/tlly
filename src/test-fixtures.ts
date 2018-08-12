@@ -11,7 +11,8 @@ interface IGetDB {
   writeCalledFromSet: () => boolean
 }
 
-export const getDBDouble = (getValue?: any): IGetDB => {
+export const getDBDouble = (getValue?: any[]): IGetDB => {
+  let responseIndex = 0
   let getCalledWith: any = undefined
   let pushCalledWith: any = undefined
   let setCalledWith: any = undefined
@@ -31,7 +32,7 @@ export const getDBDouble = (getValue?: any): IGetDB => {
         return {
           value() {
             valueCalled = true
-            return getValue || undefined
+            return (getValue && getValue[responseIndex++]) || undefined
           },
           push(value: IJSONValue) {
             pushCalledWith = value

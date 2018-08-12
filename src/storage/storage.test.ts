@@ -4,7 +4,7 @@ import {
   maybeStartNewTally,
   writeUpdatedTallyToDb,
   updateCurrentTally,
-  updateTally as factory
+  updateTallyFactory as factory
 } from './storage'
 import { getDBDouble } from '../test-fixtures'
 import { ErrorMessage } from '../enums/error-message'
@@ -16,12 +16,12 @@ test('storage::getResolvedTally returns tally name that is passed into it', (t) 
 })
 
 test('storage::getResolvedTally returns tally name that is passed into it even if db returns another name', (t) => {
-  const dbDouble = getDBDouble('someOtherTally')
+  const dbDouble = getDBDouble(['someOtherTally'])
   t.is(getResolvedTally(dbDouble.db, 'someTally'), 'someTally')
 })
 
 test('storage::getResolvedTally returns tally name from db if no name passed into it', (t) => {
-  const dbDouble = getDBDouble('someOtherTally')
+  const dbDouble = getDBDouble(['someOtherTally'])
   t.is(getResolvedTally(dbDouble.db, undefined), 'someOtherTally')
 })
 
@@ -77,7 +77,7 @@ test('storage::updateTally runs without an error if both anount and tally passed
 })
 
 test('storage::updateTally runs without an error if no number is passed into it but db returns a tally', (t) => {
-  const dbDouble = getDBDouble('foo')
+  const dbDouble = getDBDouble(['foo'])
   const updateTally = factory(dbDouble.db)
   updateTally()
   t.pass()

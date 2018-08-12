@@ -31,7 +31,7 @@ export const config = {
       type: 'boolean',
       alias: 'c'
     },
-    boolean: {
+    delete: {
       type: 'boolean',
       alias: 'D'
     }

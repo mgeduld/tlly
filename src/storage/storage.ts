@@ -1,6 +1,7 @@
 import { DB } from '../enums/db'
 import { ErrorMessage } from '../enums/error-message'
 import { IDB } from '../interfaces/db'
+import { count } from '../queries/'
 
 export const getResolvedTally = (
   db: IDB,
@@ -37,14 +38,19 @@ export const updateCurrentTally = (db: IDB, resolvedTally: string) => {
   db.set(DB.currentTally, resolvedTally).write()
 }
 
-export const updateTally = (db: IDB) => (
-  amount: number = 1,
-  tally?: string
-) => {
+export const updateTally = (db: IDB, amount: number, tally?: string) => {
   const resolvedTally = getResolvedTally(db, tally)
   const jsonPath = `tallies.${resolvedTally}`
   const tallyResults = db.get(jsonPath).value()
   maybeStartNewTally(tallyResults, db, jsonPath)
   writeUpdatedTallyToDb(db, jsonPath, amount)
   updateCurrentTally(db, resolvedTally)
+  return resolvedTally
+}
+
+export const updateTallyFactory = (db: IDB) => (
+  amount: number = 1,
+  tally?: string
+) => {
+  return updateTally(db, amount, tally)
 }
