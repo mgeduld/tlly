@@ -1,16 +1,12 @@
 import { IDB } from '../interfaces/db'
 import { ErrorMessage } from '../enums/error-message'
-
-interface ITally {
-  amount: number
-  timeStamp: string
-}
+import { ITallies, ITally } from '../interfaces/tallies'
 
 export const tallyReducer = (result: number, tally: ITally) => {
   return (result += tally.amount)
 }
 
-export const talliesReducer = (tallies: object) => (
+export const talliesReducer = (tallies: ITallies) => (
   counts: string[],
   tallyName: string
 ): string[] => {
@@ -20,7 +16,7 @@ export const talliesReducer = (tallies: object) => (
   return counts
 }
 
-export const getTotal = (tallies: object) => {
+export const getTotal = (tallies: ITallies) => {
   const totals = Object.keys(tallies).reduce(talliesReducer(tallies), [])
   return totals.join('\n')
 }
@@ -33,16 +29,19 @@ export const getTalliesResponseValue = (
 }
 
 export const normalizeTallies = (
-  talliesResponseValue: object | any[],
+  talliesResponseValue: ITallies | ITally[],
   tally?: string
-): object => {
+): ITallies => {
   return Array.isArray(talliesResponseValue)
     ? { [tally]: talliesResponseValue }
     : talliesResponseValue
 }
 
 export const count = (db: IDB) => (tally?: string): string => {
-  const talliesResponseValue = getTalliesResponseValue(db, tally)
+  const talliesResponseValue:
+    | ITallies
+    | ITally[]
+    | {} = getTalliesResponseValue(db, tally)
   if (!talliesResponseValue) {
     throw new Error(ErrorMessage.noTalliesFound)
   }
