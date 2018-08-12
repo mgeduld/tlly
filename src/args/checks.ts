@@ -7,3 +7,5 @@ export const hasNoFlagsSet = (flags: IFlags) => {
 export const userWantsToTally = (flags: IFlags) => hasNoFlagsSet(flags)
 
 export const userWantsToCount = (flags: IFlags) => flags.count
+
+export const userWantsMockTallies = (flags: IFlags) => flags.demo

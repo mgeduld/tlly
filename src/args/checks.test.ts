@@ -1,5 +1,9 @@
 import test from 'ava'
-import { userWantsToCount, userWantsToTally } from './checks'
+import {
+  userWantsToCount,
+  userWantsToTally,
+  userWantsMockTallies
+} from './checks'
 import { IFlags } from '../interfaces/args'
 import { getFlags } from '../test-fixtures'
 
@@ -15,4 +19,11 @@ test('args::checks::userWantsToCount', (t) => {
   t.true(userWantsToCount(flags), 'returns true when count flag is true')
   flags.count = false
   t.false(userWantsToCount(flags), 'returns false when count flag is false')
+})
+
+test('args::checks::userWantsMockTallies', (t) => {
+  const flags: IFlags = getFlags('demo')
+  t.true(userWantsMockTallies(flags), 'returns true when count flag is true')
+  flags.demo = false
+  t.false(userWantsMockTallies(flags), 'returns false when count flag is false')
 })

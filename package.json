@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/mgeduld/tlly#readme",
   "devDependencies": {
+    "@types/date-fns": "^2.6.0",
     "@types/lowdb": "^1.0.5",
     "@types/meow": "^4.0.1",
     "@types/node": "^10.5.8",
@@ -40,6 +41,7 @@
     "typescript": "^3.0.1"
   },
   "dependencies": {
+    "date-fns": "^1.29.0",
     "lowdb": "^1.0.0",
     "meow": "^5.0.0"
   }
