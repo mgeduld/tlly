@@ -1,5 +1,5 @@
 import { IDB, IJSONValue } from './interfaces/db'
-import { maybeStartNewTally } from './storage/storage'
+import { IFlags } from './interfaces/args'
 
 interface IGetDB {
   db: IDB
@@ -54,4 +54,20 @@ export const getDBDouble = (getValue?: any[]): IGetDB => {
       }
     }
   }
+}
+
+export const getFlags = (trueFlag?: string) => {
+  const flags: IFlags = {
+    reset: false,
+    set: false,
+    count: false,
+    delete: false,
+    demo: false
+  }
+
+  if (flags[trueFlag] !== undefined) {
+    flags[trueFlag] = true
+  }
+
+  return flags
 }

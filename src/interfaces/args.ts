@@ -3,6 +3,7 @@ export interface IFlags {
   set: boolean
   count: boolean
   delete: boolean
+  demo: boolean
 }
 
 export interface IArgs {

@@ -17,6 +17,7 @@ $ tlly -S exercise 47 # set exericise tally to 47
 $ tlly -c exercise # should count for exercise
 $ tlly -c # should count for all tallies
 $ tlly -D exercise # delete exercise tally
+$ tlly --demo # adds dummy data
 
 * ISO 8601 format
 `
@@ -37,6 +38,9 @@ export const getConfig = () => ({
     delete: {
       type: 'boolean',
       alias: 'D'
+    },
+    demo: {
+      type: 'boolean'
     }
   }
 })
