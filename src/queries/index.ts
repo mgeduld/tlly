@@ -5,6 +5,7 @@ import * as os from 'os'
 import { join } from 'path'
 import { countFactory } from './count'
 import { seinfeldCountFactory } from './seinfeld-count'
+import { timestampFactory } from './timestamp'
 import { dbDefault, dbFile } from '../constants'
 
 export const count = async (...args) => {
@@ -24,4 +25,11 @@ export const seinfeldCount = (...args) => {
   const db = lowdb(adapter)
   db.defaults(dbDefault)
   return seinfeldCountFactory(db).apply(null, args)
+}
+
+export const timestamp = (...args) => {
+  const adapter = new FileSync(join(os.homedir(), dbFile))
+  const db = lowdb(adapter)
+  db.defaults(dbDefault)
+  return timestampFactory(db).apply(null, args)
 }

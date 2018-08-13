@@ -11,3 +11,7 @@ export const userWantsToCount = (flags: IFlags) => flags.count
 export const userWantsMockTallies = (flags: IFlags) => flags.demo
 
 export const userWantsToSeinfeldCount = (flags: IFlags) => flags.seinfeldCount
+
+export const userWantsToSeeTimestampList = (flags: IFlags) => flags.timestamp
+
+export const userWantsToDeleteATally = (flags: IFlags) => flags.delete

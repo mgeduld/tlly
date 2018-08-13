@@ -1,5 +1,11 @@
 import test from 'ava'
-import { doTally, doCount, doSeinfeldCount } from './commands'
+import {
+  doTally,
+  doCount,
+  doSeinfeldCount,
+  doTimestamp,
+  doDeleteTally
+} from './commands'
 
 test('commands::doTally with args', (t) => {
   t.plan(2)
@@ -45,6 +51,20 @@ test('commants::doCount', (t) => {
 test('commants::doSeinfeldCount', (t) => {
   t.plan(1)
   doSeinfeldCount((value) => {
+    t.is(value, 'tally1')
+  })('tally1')
+})
+
+test('commants::doTimestamp', (t) => {
+  t.plan(1)
+  doTimestamp((value) => {
+    t.is(value, 'tally1')
+  })('tally1')
+})
+
+test('commants::doDeleteTally', (t) => {
+  t.plan(1)
+  doDeleteTally((value) => {
     t.is(value, 'tally1')
   })('tally1')
 })

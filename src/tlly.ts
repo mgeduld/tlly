@@ -5,10 +5,18 @@ import {
   userWantsToCount,
   userWantsToTally,
   userWantsMockTallies,
-  userWantsToSeinfeldCount
+  userWantsToSeinfeldCount,
+  userWantsToSeeTimestampList,
+  userWantsToDeleteATally
 } from './args'
 import { IArgs, IFlags } from './interfaces/args'
-import { doCount, doTally, doSeinfeldCount } from './commands'
+import {
+  doCount,
+  doTally,
+  doSeinfeldCount,
+  doTimestamp,
+  doDeleteTally
+} from './commands'
 import { addMockTallies } from './demo'
 
 const moewResult: any = meow(getHelp(), getConfig() as meow.Options)
@@ -22,6 +30,10 @@ if (userWantsToTally(flags)) {
   doCount(tallyName)
 } else if (userWantsToSeinfeldCount(flags)) {
   doSeinfeldCount(tallyName)
+} else if (userWantsToSeeTimestampList(flags)) {
+  doTimestamp(tallyName)
+} else if (userWantsToDeleteATally(flags)) {
+  doDeleteTally(tallyName)
 } else if (userWantsMockTallies(flags)) {
   addMockTallies()
 }

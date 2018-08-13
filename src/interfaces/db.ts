@@ -17,4 +17,5 @@ export interface IDB {
     push: (value: IJSONValue) => { write: IWrite }
   }
   set: (path: string, value: IJSONValue) => { write: IWrite }
+  unset: (path: string) => { write: IWrite }
 }

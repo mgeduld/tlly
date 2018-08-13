@@ -3,7 +3,9 @@ import {
   userWantsToCount,
   userWantsToTally,
   userWantsMockTallies,
-  userWantsToSeinfeldCount
+  userWantsToSeinfeldCount,
+  userWantsToSeeTimestampList,
+  userWantsToDeleteATally
 } from './checks'
 import { IFlags } from '../interfaces/args'
 import { getFlags } from '../test-fixtures'
@@ -38,6 +40,29 @@ test('args::checks::userWantsToSeinfeldCount', (t) => {
   flags.seinfeldCount = false
   t.false(
     userWantsToSeinfeldCount(flags),
+    'returns false when count flag is false'
+  )
+})
+
+test('args::checks::userWantsToSeeTimestampList', (t) => {
+  const flags: IFlags = getFlags('timestamp')
+  t.true(
+    userWantsToSeeTimestampList(flags),
+    'returns true when count flag is true'
+  )
+  flags.timestamp = false
+  t.false(
+    userWantsToSeeTimestampList(flags),
+    'returns false when count flag is false'
+  )
+})
+
+test('args::checks::userWantsToDeleteATally', (t) => {
+  const flags: IFlags = getFlags('delete')
+  t.true(userWantsToDeleteATally(flags), 'returns true when count flag is true')
+  flags.delete = false
+  t.false(
+    userWantsToDeleteATally(flags),
     'returns false when count flag is false'
   )
 })
