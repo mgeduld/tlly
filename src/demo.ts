@@ -1,6 +1,7 @@
 import { subDays } from 'date-fns'
 import { range } from 'lodash'
 import { doTally } from './commands/'
+import { updateTally } from './storage'
 
 const getLastNDaysAsStrings = (
   n: number,
@@ -16,8 +17,9 @@ const getLastNDaysAsStrings = (
 
 const addTally = (name: string, dates: string[]) => {
   dates.forEach((date) => {
-    doTally(1, name, date)
+    updateTally(1, name, date)
   })
+  console.log(`Added tally ${name}`)
 }
 
 export const addMockTallies = () => {

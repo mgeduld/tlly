@@ -45,7 +45,7 @@ export const seinfeldCount = (db: IDB) => (tally?: string): string => {
     | IContigiousTally
     | IContigiousTallies
     | {} = getContiguousResponseValue(db, tally)
-  console.log(contiguousResponseValue)
+
   if (!contiguousResponseValue) {
     throw new Error(ErrorMessage.noTalliesFound)
   }
