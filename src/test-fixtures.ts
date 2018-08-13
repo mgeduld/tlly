@@ -6,9 +6,11 @@ interface IGetDB {
   getCalledWith: () => any
   pushCalledWith: () => any
   setCalledWith: () => any
+  unsetCalledWith: () => any
   valueCalled: () => boolean
   writeCalledFromGet: () => boolean
   writeCalledFromSet: () => boolean
+  writeCalledFromUnset: () => boolean
 }
 
 export const getDBDouble = (getValue?: any[]): IGetDB => {
@@ -16,9 +18,11 @@ export const getDBDouble = (getValue?: any[]): IGetDB => {
   let getCalledWith: any[] = []
   let pushCalledWith: any[] = []
   let setCalledWith: any[] = []
+  let unsetCalledWith: any[] = []
   let valueCalled = false
   let writeCalledFromGet = false
   let writeCalledFromSet = false
+  let writeCalledFromUnset = false
   return {
     getCalledWith: () => getCalledWith,
     pushCalledWith: () => pushCalledWith,
@@ -26,6 +30,8 @@ export const getDBDouble = (getValue?: any[]): IGetDB => {
     valueCalled: () => valueCalled,
     writeCalledFromGet: () => writeCalledFromGet,
     writeCalledFromSet: () => writeCalledFromSet,
+    writeCalledFromUnset: () => writeCalledFromUnset,
+    unsetCalledWith: () => unsetCalledWith,
     db: {
       get(path: string) {
         getCalledWith.push(path)
@@ -49,6 +55,14 @@ export const getDBDouble = (getValue?: any[]): IGetDB => {
         return {
           write() {
             writeCalledFromSet = true
+          }
+        }
+      },
+      unset(path: string) {
+        unsetCalledWith.push(path)
+        return {
+          write() {
+            writeCalledFromUnset = true
           }
         }
       }
