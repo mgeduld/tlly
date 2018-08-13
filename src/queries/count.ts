@@ -42,6 +42,7 @@ export const count = (db: IDB) => (tally?: string): string => {
     | ITallies
     | ITally[]
     | {} = getTalliesResponseValue(db, tally)
+
   if (!talliesResponseValue) {
     throw new Error(ErrorMessage.noTalliesFound)
   }

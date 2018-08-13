@@ -58,11 +58,11 @@ export const getDBDouble = (getValue?: any[]): IGetDB => {
 
 export const getFlags = (trueFlag?: string) => {
   const flags: IFlags = {
-    reset: false,
-    set: false,
     count: false,
     delete: false,
-    demo: false
+    demo: false,
+    seinfeldCount: false,
+    timestamp: false
   }
 
   if (flags[trueFlag] !== undefined) {

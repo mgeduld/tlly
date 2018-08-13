@@ -4,10 +4,11 @@ import {
   getInputValues,
   userWantsToCount,
   userWantsToTally,
-  userWantsMockTallies
+  userWantsMockTallies,
+  userWantsToSeinfeldCount
 } from './args'
 import { IArgs, IFlags } from './interfaces/args'
-import { doCount, doTally } from './commands'
+import { doCount, doTally, doSeinfeldCount } from './commands'
 import { addMockTallies } from './demo'
 
 const moewResult: any = meow(getHelp(), getConfig() as meow.Options)
@@ -19,6 +20,8 @@ if (userWantsToTally(flags)) {
   doTally(amount, tallyName, timeStamp)
 } else if (userWantsToCount(flags)) {
   doCount(tallyName)
-} else if (userWantsMockTallies) {
+} else if (userWantsToSeinfeldCount(flags)) {
+  doSeinfeldCount(tallyName)
+} else if (userWantsMockTallies(flags)) {
   addMockTallies()
 }

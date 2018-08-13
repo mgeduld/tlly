@@ -1,3 +1,5 @@
+import { seinfeldCount } from '../queries'
+
 export const doTally = (displayCount: Function, updateTally: Function) => (
   amount?: any,
   tallyName?: string,
@@ -14,4 +16,11 @@ export const doTally = (displayCount: Function, updateTally: Function) => (
 
 export const doCount = (displayCount: Function) => (tallyName?: string) => {
   displayCount(tallyName)
+}
+
+export const doSeinfeldCount = (seinfeldCount: Function) => (
+  tallyName?: string
+) => {
+  const count = seinfeldCount(tallyName)
+  console.log(count)
 }

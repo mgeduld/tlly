@@ -1,6 +1,6 @@
 export interface IFlags {
-  reset: boolean
-  set: boolean
+  seinfeldCount: boolean
+  timestamp: boolean
   count: boolean
   delete: boolean
   demo: boolean

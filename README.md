@@ -12,8 +12,6 @@ A command-line tool for keeping tallies
 [x] add new tallies
 [x] increment/decrement tallies
 [x] display tally counts
-[] reset tally to zero
-[] set tally to arbitrary numner
 [] delete tally
 [] display tally by date
 [] display recent contiguous tally as count
