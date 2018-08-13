@@ -26,6 +26,11 @@
       "src/test-fixtures.ts"
     ]
   },
+  "configuration": {
+    "default": {
+      "dbLocation": ""
+    }
+  },
   "homepage": "https://github.com/mgeduld/tlly#readme",
   "devDependencies": {
     "@types/date-fns": "^2.6.0",

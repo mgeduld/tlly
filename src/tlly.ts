@@ -1,5 +1,5 @@
 import meow = require('meow')
-import { getHelp, getConfig } from './args'
+import { getHelp, getConfig as getArgsConfig } from './args'
 import {
   getInputValues,
   userWantsToCount,
@@ -20,7 +20,7 @@ import {
 import { addMockTallies } from './demo'
 
 const start = () => {
-  const moewResult: any = meow(getHelp(), getConfig() as meow.Options)
+  const moewResult: any = meow(getHelp(), getArgsConfig() as meow.Options)
   const flags: IFlags = moewResult.flags
   const args: IArgs = { input: moewResult.input, flags }
   const { tallyName, amount, timeStamp } = getInputValues(args)

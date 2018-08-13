@@ -4,9 +4,9 @@ import * as os from 'os'
 import { join } from 'path'
 import { updateTallyFactory } from './storage'
 import { deleteTallyFactory } from './delete'
-import { dbDefault, dbFile } from '../constants'
+import { dbDefault, dbLocation } from '../constants'
 
-const adapter = new FileSync(join(os.homedir(), dbFile))
+const adapter = new FileSync(dbLocation)
 const db = lowdb(adapter)
 db.defaults(dbDefault)
 
