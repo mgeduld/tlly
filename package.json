@@ -2,16 +2,18 @@
   "name": "tlly",
   "version": "1.0.0",
   "description": "a command-line tool for keeping tallies",
-  "main": "index.js",
+  "main": "./bin/app.js",
   "scripts": {
     "test": "nyc ava-ts \"src/**/*.test.ts\"",
-    "build": "parcel src/tlly.ts --out-dir dist/ --target node"
+    "build": "parcel src/tlly.ts --out-dir lib/ --target node"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mgeduld/tlly.git"
   },
-  "keywords": [],
+  "keywords": [
+    "tally"
+  ],
   "author": "Marcus Geduld",
   "license": "MIT",
   "bugs": {
@@ -30,6 +32,9 @@
     "default": {
       "dbLocation": ""
     }
+  },
+  "bin": {
+    "tlly": "./bin/app.js"
   },
   "homepage": "https://github.com/mgeduld/tlly#readme",
   "devDependencies": {
