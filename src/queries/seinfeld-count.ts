@@ -9,7 +9,6 @@ export const talliesReducer = (contiguousTallies: IContigiousTallies) => (
 ): string[] => {
   const record = contiguousTallies[tallyName]
   const dateDiff = differenceInCalendarDays(new Date(), new Date(record.last))
-  console.log(dateDiff)
   counts.push(`${tallyName}: ${dateDiff > 1 ? 0 : record.count}`)
   return counts
 }
