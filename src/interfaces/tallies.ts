@@ -9,7 +9,7 @@ export interface ITallies {
 
 export interface IContigiousTally {
   count: number
-  timeStamp: string
+  last: string
 }
 
 export interface IContigiousTallies {

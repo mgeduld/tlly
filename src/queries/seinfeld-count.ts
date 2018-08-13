@@ -1,13 +1,16 @@
 import { IDB } from '../interfaces/db'
 import { ErrorMessage } from '../enums/error-message'
 import { IContigiousTallies, IContigiousTally } from '../interfaces/tallies'
+import { differenceInCalendarDays } from 'date-fns'
 
 export const talliesReducer = (contiguousTallies: IContigiousTallies) => (
   counts: string[],
   tallyName: string
 ): string[] => {
   const record = contiguousTallies[tallyName]
-  counts.push(`${tallyName}: ${record.count}`)
+  const dateDiff = differenceInCalendarDays(new Date(), new Date(record.last))
+  console.log(dateDiff)
+  counts.push(`${tallyName}: ${dateDiff > 1 ? 0 : record.count}`)
   return counts
 }
 
@@ -43,7 +46,7 @@ export const seinfeldCount = (db: IDB) => (tally?: string): string => {
     | IContigiousTally
     | IContigiousTallies
     | {} = getContiguousResponseValue(db, tally)
-
+  console.log(contiguousResponseValue)
   if (!contiguousResponseValue) {
     throw new Error(ErrorMessage.noTalliesFound)
   }
