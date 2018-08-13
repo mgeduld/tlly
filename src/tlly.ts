@@ -19,21 +19,29 @@ import {
 } from './commands'
 import { addMockTallies } from './demo'
 
-const moewResult: any = meow(getHelp(), getConfig() as meow.Options)
-const flags: IFlags = moewResult.flags
-const args: IArgs = { input: moewResult.input, flags }
-const { tallyName, amount, timeStamp } = getInputValues(args)
+const start = () => {
+  const moewResult: any = meow(getHelp(), getConfig() as meow.Options)
+  const flags: IFlags = moewResult.flags
+  const args: IArgs = { input: moewResult.input, flags }
+  const { tallyName, amount, timeStamp } = getInputValues(args)
 
-if (userWantsToTally(flags)) {
-  doTally(amount, tallyName, timeStamp)
-} else if (userWantsToCount(flags)) {
-  doCount(tallyName)
-} else if (userWantsToSeinfeldCount(flags)) {
-  doSeinfeldCount(tallyName)
-} else if (userWantsToSeeTimestampList(flags)) {
-  doTimestamp(tallyName)
-} else if (userWantsToDeleteATally(flags)) {
-  doDeleteTally(tallyName)
-} else if (userWantsMockTallies(flags)) {
-  addMockTallies()
+  try {
+    if (userWantsToTally(flags)) {
+      doTally(amount, tallyName, timeStamp)
+    } else if (userWantsToCount(flags)) {
+      doCount(tallyName)
+    } else if (userWantsToSeinfeldCount(flags)) {
+      doSeinfeldCount(tallyName)
+    } else if (userWantsToSeeTimestampList(flags)) {
+      doTimestamp(tallyName)
+    } else if (userWantsToDeleteATally(flags)) {
+      doDeleteTally(tallyName)
+    } else if (userWantsMockTallies(flags)) {
+      addMockTallies()
+    }
+  } catch (e) {
+    console.log(e.message)
+  }
 }
+
+start()
