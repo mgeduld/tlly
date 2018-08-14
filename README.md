@@ -6,12 +6,6 @@ A command-line tool for keeping tallies.
 
 `npm install -g tlly`
 
-## Thanks, Gleb!
-
-Your simple words "Do a project" made me finally _do a project_ I'd procrastinated on for year. This is something I'll use every day.
-
-Now please say "Clean out the garage!" My wife will thank you.
-
 ## About tlly
 
 ### My Life with Tallies
@@ -170,3 +164,9 @@ This app uses lowdb, because most of my work involves heavy-lifter DBs, such as 
 - [] optionally display recent contiguous tally as some sort of chain: xxxxx
 
 [1] https://github.com/typicode/lowdb/issues/283
+
+## Thanks, Gleb!
+
+Your simple words "Do a project" made me finally _do a project_ I'd procrastinated on for year. This is something I'll use every day.
+
+Now please say "Clean out the garage!" My wife will thank you.
