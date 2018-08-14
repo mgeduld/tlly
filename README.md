@@ -160,6 +160,7 @@ This app uses lowdb, because most of my work involves heavy-lifter DBs, such as 
 
 ## Todo Backlog
 
+- [] recalc contiguous after user adds arbitrary timestamp, which might have plugged a gap
 - [] display arbitrary list of tallies (tlly -c exercise meditation)
 - [] display tallies for a particular date
 - [] display tallies for a range of dates
